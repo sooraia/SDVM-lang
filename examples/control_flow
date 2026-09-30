@@ -1,0 +1,28 @@
+// Boolean operators, if/else, continue, and break.
+
+int main() {
+    int number = 1;
+    int total = 0;
+
+    while (number <= 20) {
+        number = number + 1;
+
+        if (number % 2 != 0) {
+            continue;
+        }
+
+        if (number > 12 && total > 20) {
+            break;
+        }
+
+        total = total + number;
+    }
+
+    if (total >= 20 || number == 21) {
+        print(total);
+    } else {
+        print(0);
+    }
+
+    return 0;
+}

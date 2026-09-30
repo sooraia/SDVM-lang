@@ -1,0 +1,13 @@
+// Static arrays, indexing, and a for loop.
+
+int main() {
+    int values[5] = {2, 4, 6, 8, 10};
+    int sum = 0;
+
+    for (int i = 0; i < 5; i = i + 1) {
+        sum = sum + values[i];
+    }
+
+    print(sum);
+    return 0;
+}

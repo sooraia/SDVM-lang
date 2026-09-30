@@ -1,0 +1,15 @@
+// String literals, input/output, and a void function.
+
+void show_message() {
+    print("Enter a number:");
+}
+
+int main() {
+    int value;
+
+    show_message();
+    read(value);
+    print("You entered:");
+    print(value);
+    return 0;
+}
