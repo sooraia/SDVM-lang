@@ -227,4 +227,5 @@ The grammar allows constructs that require semantic validation, such as:
 * Omitting a return value from a non-void function
 * Type-incompatible assignments and expressions
 * ...
+
 For these consider the same semantic rules of C.
