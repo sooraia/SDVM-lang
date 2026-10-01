@@ -199,7 +199,7 @@ From **lowest to highest precedence**:
 
 | Level | Operators                   | Associativity |
 | ----: | --------------------------- | ------------- |
-|     1 | `||`                        | left          |
+|     1 | `\|\|`                      | left          |
 |     2 | `&&`                        | left          |
 |     3 | `==`, `!=`                  | left          |
 |     4 | `<`, `<=`, `>`, `>=`        | left          |
