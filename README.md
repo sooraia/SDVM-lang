@@ -112,7 +112,7 @@ block ::= "{"
 
 ```ebnf
 assignment ::= IDENTIFIER "=" expression
-             | IDENTIFIER "[" expression "]" "=" expression ;
+             | IDENTIFIER "[" expression "]" "=" expression ";" ;
 
 if_statement ::= "if" "(" expression ")"
                  statement
