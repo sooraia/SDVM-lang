@@ -1,0 +1,18 @@
+// Calculates the area and perimeter of a rectangle.
+
+double area(double width, double height) {
+    return width * height;
+}
+
+double perimeter(double width, double height) {
+    return 2.0 * (width + height);
+}
+
+int main() {
+    double width = 4.0;
+    double height = 2.5;
+
+    print(area(width, height));
+    print(perimeter(width, height));
+    return 0;
+}

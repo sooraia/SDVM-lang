@@ -1,0 +1,18 @@
+// Computes the greatest common divisor of two numbers.
+
+int gcd(int first, int second) {
+    int remainder;
+
+    while (second != 0) {
+        remainder = first % second;
+        first = second;
+        second = remainder;
+    }
+
+    return first;
+}
+
+int main() {
+    print(gcd(48, 18));
+    return 0;
+}

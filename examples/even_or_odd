@@ -1,0 +1,14 @@
+// Checks whether an input number is even or odd.
+
+int main() {
+    int number;
+    read(number);
+
+    if (number % 2 == 0) {
+        print("even");
+    } else {
+        print("odd");
+    }
+
+    return 0;
+}

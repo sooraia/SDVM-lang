@@ -1,0 +1,21 @@
+// Determines whether a year is a leap year.
+
+int main() {
+    int year;
+    bool divisible_by_four;
+    bool divisible_by_hundred;
+    bool divisible_by_four_hundred;
+
+    read(year);
+    divisible_by_four = year % 4 == 0;
+    divisible_by_hundred = year % 100 == 0;
+    divisible_by_four_hundred = year % 400 == 0;
+
+    if (divisible_by_four && (!divisible_by_hundred || divisible_by_four_hundred)) {
+        print("leap year");
+    } else {
+        print("common year");
+    }
+
+    return 0;
+}

@@ -1,0 +1,17 @@
+// Finds the largest value in an array.
+
+int main() {
+    int values[6] = {7, 3, 12, 5, 9, 4};
+    int largest = values[0];
+    int i = 1;
+
+    while (i < 6) {
+        if (values[i] > largest) {
+            largest = values[i];
+        }
+        i = i + 1;
+    }
+
+    print(largest);
+    return 0;
+}

@@ -1,0 +1,18 @@
+// Prints the first terms of the Fibonacci sequence.
+
+int main() {
+    int first = 0;
+    int second = 1;
+    int next;
+    int count = 0;
+
+    while (count < 8) {
+        print(first);
+        next = first + second;
+        first = second;
+        second = next;
+        count = count + 1;
+    }
+
+    return 0;
+}

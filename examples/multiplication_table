@@ -1,0 +1,12 @@
+// Prints the multiplication table for a number.
+
+int main() {
+    int number = 7;
+    int multiplier = 1;
+
+    for (; multiplier <= 10; multiplier = multiplier + 1) {
+        print(number * multiplier);
+    }
+
+    return 0;
+}

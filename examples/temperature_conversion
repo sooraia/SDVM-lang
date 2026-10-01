@@ -1,0 +1,11 @@
+// Converts Celsius to Fahrenheit with a helper function.
+
+double to_fahrenheit(double celsius) {
+    return celsius * 9.0 / 5.0 + 32.0;
+}
+
+int main() {
+    double temperature = 20.0;
+    print(to_fahrenheit(temperature));
+    return 0;
+}

@@ -1,0 +1,31 @@
+// Checks whether a number is prime.
+
+int is_prime(int number) {
+    int divisor = 2;
+
+    if (number < 2) {
+        return 0;
+    }
+
+    while (divisor * divisor <= number) {
+        if (number % divisor == 0) {
+            return 0;
+        }
+        divisor = divisor + 1;
+    }
+
+    return 1;
+}
+
+int main() {
+    int number;
+    read(number);
+
+    if (is_prime(number) == 1) {
+        print("prime");
+    } else {
+        print("not prime");
+    }
+
+    return 0;
+}
