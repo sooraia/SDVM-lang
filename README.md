@@ -18,7 +18,8 @@ Repository for the specification of the language defined for the Software Mainte
 * Boolean operators: `&&`, `||`, `!`
 * Comparison operators: `<`, `<=`, `>`, `>=`, `==`, `!=`
 * Explicit type casts: `(double)x`
-* `print(...)`, `read(...)` and similar simple built-ins
+* Built-in `print(...)` function that prints the value of an expression to the standard output
+* Built-in `read(...)` function that reads a value from the standard input and assigns it to a variable
 * `'a'` character literals
 * `"hello"` string literals
 * `//` and `/* ... */` comments
