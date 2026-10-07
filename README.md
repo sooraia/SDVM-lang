@@ -27,16 +27,43 @@ Repository for the specification of the language defined for the Software Mainte
 
 ## Grammar
 
-### Tokens used
+### Grammar tuple
 
+The grammar is defined as the tuple:
+
+```text
+G = (T, N, S, P)
 ```
-INTEGER    = [0-9]+
-FLOAT      = [0-9]+\.[0-9]+([eE][+-]?[0-9]+)?
-IDENTIFIER = [A-Za-z][A-Za-z0-9_]*
-CHAR       = '([^'\\]|\\.)'
-STRING     = "([^"\\]|\\.)*"
+
+where:
+
+```text
+T = {
+  INTEGER, FLOAT, IDENTIFIER, CHAR, STRING,
+  "int", "double", "char", "bool", "void",
+  "if", "else", "while", "for", "break", "continue", "return",
+  "print", "read", "true", "false",
+  "{", "}", "[", "]", "(", ")", ";", ",",
+  "=", "||", "&&", "==", "!=", "<", "<=", ">", ">=",
+  "+", "-", "*", "/", "%"
+}
+
+N = {
+  program, declaration,
+  type, variable_declaration, variable_declaration_core, array_initializer,
+  function_definition, return_type, parameter_list, parameter,
+  statement, block, assignment, if_statement, while_statement,
+  for_statement, for_initializer, return_statement, print_statement,
+  read_statement,
+  expression, logical_and, equality, comparison, additive, multiplicative,
+  unary, postfix, function_call, argument_list, primary
+}
+
+S = program
 ```
---- 
+
+The `P` set consists of the EBNF production rules below. The notation `[ X ]` represents an optional occurrence of `X`, and `{ X }` represents zero or more occurrences of `X`; these are EBNF abbreviations, used only to keep the specification readable.
+
 ### Program structure
 
 ```ebnf
@@ -210,12 +237,17 @@ From **lowest to highest precedence**:
 
 ### 2. Lexical considerations
 
-Whitespace and comments are ignored:
+The lexical patterns of the tokens would be somewhat like the following (in regex notation):
 
-WHITESPACE    = [ \t\r\n]+
-LINE_COMMENT  = "//" ... "\n"
-BLOCK_COMMENT = "/*" ... "*/"
+```text
+INTEGER    = [0-9]+
+FLOAT      = [0-9]+\.[0-9]+([eE][+-]?[0-9]+)?
+IDENTIFIER = [A-Za-z][A-Za-z0-9_]*
+CHAR       = '([^'\\]|\\.)'
+STRING     = "([^"\\]|\\.)*"
+```
 
+Whitespace and comments are ignored.
 The literals included in the grammar (words in between quotes) must be recognized before the IDENTIFIER token.
 
 ### 3. Semantic rules
