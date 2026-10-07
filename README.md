@@ -49,75 +49,105 @@ T = {
 }
 
 N = {
-  program, declaration,
-  type, variable_declaration, variable_declaration_core, array_initializer,
-  function_definition, return_type, parameter_list, parameter,
-  statement, block, assignment, if_statement, while_statement,
-  for_statement, for_initializer, return_statement, print_statement,
-  read_statement,
-  expression, logical_and, equality, comparison, additive, multiplicative,
-  unary, postfix, function_call, argument_list, primary
+  program, declaration_list, declaration,
+  type, variable_declaration, variable_declaration_core, variable_initializer,
+  array_declaration_initializer, array_initializer, array_initializer_contents,
+  array_initializer_tail,
+  function_definition, return_type, parameter_list_optional, parameter_list,
+  parameter_list_tail, parameter,
+  statement, statement_list, block, assignment, if_statement, else_clause,
+  while_statement, for_statement, for_initializer_optional, expression_optional,
+  for_initializer, return_statement, return_expression_optional,
+  print_statement, read_statement,
+  expression, expression_tail, logical_and, logical_and_tail, equality,
+  equality_tail, equality_operator, comparison, comparison_tail,
+  comparison_operator, additive, additive_tail, additive_operator,
+  multiplicative, multiplicative_tail, multiplicative_operator, unary,
+  unary_operator, postfix, function_call, argument_list_optional,
+  argument_list, argument_list_tail, primary
 }
 
 S = program
 ```
 
-The `P` set consists of the EBNF production rules below. The notation `[ X ]` represents an optional occurrence of `X`, and `{ X }` represents zero or more occurrences of `X`; these are EBNF abbreviations, used only to keep the specification readable.
+The `P` set consists of the following BNF production rules. `ε` denotes
+the empty string. Optional parts and repetitions are represented explicitly by
+auxiliary non-terminals and `ε` productions; no EBNF repetition or
+optional notation is used in the rules.
 
 ### Program structure
 
-```ebnf
-program ::= { declaration } ;
+```bnf
+program ::= declaration_list
+
+declaration_list ::= declaration declaration_list
+                   | ε
 
 declaration ::= variable_declaration
-              | function_definition ;
+              | function_definition
 ```
 
 ### Types
 
-```ebnf
+```bnf
 type ::= "int"
        | "double"
        | "char"
-       | "bool" ;
+       | "bool"
 ```
 
 ### Declarations
 
-```ebnf
-variable_declaration ::= variable_declaration_core ";" ;
+```bnf
+variable_declaration ::= variable_declaration_core
 
 variable_declaration_core ::= type IDENTIFIER
-                              [ "=" expression ]
+                              variable_initializer
                             | type IDENTIFIER
                               "[" INTEGER "]"
-                              [ "=" array_initializer ] ;
+                              array_declaration_initializer
 
-array_initializer ::= "{"
-                        [ expression { "," expression } ]
-                      "}" ;
+variable_initializer ::= "=" expression
+                       | ε
+
+array_declaration_initializer ::= "=" array_initializer
+                                | ε
+
+array_initializer ::= "{" array_initializer_contents "}"
+
+array_initializer_contents ::= expression array_initializer_tail
+                             | ε
+
+array_initializer_tail ::= "," expression array_initializer_tail
+                         | ε
 ```
 
 
 ### Functions
 
-```ebnf
+```bnf
 function_definition ::= return_type IDENTIFIER
-                        "(" [ parameter_list ] ")"
-                        block ;
+                        "(" parameter_list_optional ")"
+                        block
 
 return_type ::= type
-              | "void" ;
+              | "void"
 
-parameter_list ::= parameter { "," parameter } ;
+parameter_list_optional ::= parameter_list
+                          | ε
 
-parameter ::= type IDENTIFIER ;
+parameter_list ::= parameter parameter_list_tail
+
+parameter_list_tail ::= "," parameter parameter_list_tail
+                      | ε
+
+parameter ::= type IDENTIFIER
 ```
 
 
 ### Statements
 
-```ebnf
+```bnf
 statement ::= block
             | variable_declaration
             | assignment
@@ -130,78 +160,122 @@ statement ::= block
             | "break" ";"
             | "continue" ";"
             | function_call ";"
-```
 
-```ebnf
-block ::= "{"
-            { statement }
-          "}" ;
-```
+block ::= "{" statement_list "}"
 
-```ebnf
+statement_list ::= statement statement_list
+                 | ε
+
 assignment ::= IDENTIFIER "=" expression
-             | IDENTIFIER "[" expression "]" "=" expression ";" ;
+             | IDENTIFIER "[" expression "]" "=" expression ";"
 
 if_statement ::= "if" "(" expression ")"
                  statement
-                 [ "else" statement ] ;
+                 else_clause
+
+else_clause ::= "else" statement
+              | ε
 
 while_statement ::= "while" "(" expression ")"
-                    statement ;
+                    statement
 
 for_statement ::= "for"
                   "("
-                    [ for_initializer ]
+                    for_initializer_optional
                     ";"
-                    [ expression ]
+                    expression_optional
                     ";"
-                    [ expression ]
+                    expression_optional
                   ")"
-                  statement ;
+                  statement
+
+for_initializer_optional ::= for_initializer
+                           | ε
+
+expression_optional ::= expression
+                      | ε
 
 for_initializer ::= variable_declaration_core
-                  | assignment ;
+                  | assignment
 
-return_statement ::= "return" [ expression ] ";" ;
+return_statement ::= "return" expression ";"
 
-print_statement ::= "print" "(" expression ")" ";" ;
+print_statement ::= "print" "(" expression ")" ";"
 
-read_statement ::= "read" "(" IDENTIFIER ")" ";" ;
+read_statement ::= "read" "(" IDENTIFIER ")" ";"
 
 ```
 
 
 ### Expressions
 
-```ebnf
-expression ::= logical_and
-               { "||" logical_and } ;
+```bnf
+expression ::= logical_and expression_tail
 
-logical_and ::= equality
-                { "&&" equality } ;
+expression_tail ::= "||" logical_and expression_tail
+                  | ε
 
-equality ::= comparison
-             { ("==" | "!=") comparison } ;
+logical_and ::= equality logical_and_tail
 
-comparison ::= additive
-               { ("<" | "<=" | ">" | ">=") additive } ;
+logical_and_tail ::= "&&" equality logical_and_tail
+                   | ε
 
-additive ::= multiplicative
-             { ("+" | "-") multiplicative } ;
+equality ::= comparison equality_tail
 
-multiplicative ::= unary
-                   { ("*" | "/" | "%") unary } ;
+equality_tail ::= equality_operator comparison equality_tail
+                | ε
 
-unary ::= [ "+" | "-" | "!" ] postfix ;
+equality_operator ::= "=="
+                    | "!="
+
+comparison ::= additive comparison_tail
+
+comparison_tail ::= comparison_operator additive comparison_tail
+                  | ε
+
+comparison_operator ::= "<"
+                      | "<="
+                      | ">"
+                      | ">="
+
+additive ::= multiplicative additive_tail
+
+additive_tail ::= additive_operator multiplicative additive_tail
+                | ε
+
+additive_operator ::= "+"
+                    | "-"
+
+multiplicative ::= unary multiplicative_tail
+
+multiplicative_tail ::= multiplicative_operator unary multiplicative_tail
+                      | ε
+
+multiplicative_operator ::= "*"
+                          | "/"
+                          | "%"
+
+unary ::= unary_operator postfix
+        | postfix
+
+unary_operator ::= "+"
+                 | "-"
+                 | "!"
 
 postfix ::= primary
           | primary "[" expression "]"
-          | function_call ;
+          | function_call
 
 function_call ::= primary
-                  "(" [ argument_list ] ")" ;
+                  "(" argument_list_optional ")"
 
-argument_list ::= expression { "," expression } ;
+argument_list_optional ::= argument_list
+                         | ε
+
+argument_list ::= expression argument_list_tail
+
+argument_list_tail ::= "," expression argument_list_tail
+                     | ε
 
 primary ::= INTEGER
           | FLOAT
@@ -211,7 +285,7 @@ primary ::= INTEGER
           | "false"
           | IDENTIFIER
           | "(" expression ")"
-          | "(" type ")" expression ;
+          | "(" type ")" expression
 ```
 
 ## Example programs
