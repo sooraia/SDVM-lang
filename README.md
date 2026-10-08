@@ -70,10 +70,7 @@ N = {
 S = program
 ```
 
-The `P` set consists of the following BNF production rules. `ε` denotes
-the empty string. Optional parts and repetitions are represented explicitly by
-auxiliary non-terminals and `ε` productions; no EBNF repetition or
-optional notation is used in the rules.
+The `P` set consists of the following BNF production rules. 
 
 ### Program structure
 
